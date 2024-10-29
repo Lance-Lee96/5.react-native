@@ -6,6 +6,7 @@ import Counter from "./components/Counts";
 import ToggleText from "./components/Toggle";
 import Total from "./components/Total";
 import EventButton from "./components/EventButton";
+import EventInput from "./components/EventInput";
 const App = ()=> {
     const [arr,setArr] = useState([1,2,3,4,5,6,7,8,9,10])
     return (
@@ -29,6 +30,7 @@ const App = ()=> {
         <ToggleText />
         <Total arr={arr}/> */}
         <EventButton />
+        <EventInput />
     </View>
     )
 }
