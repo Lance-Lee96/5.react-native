@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 
 import MyButton from "./components/MyComponent";
 import Counter from "./components/Counts";
@@ -7,6 +7,7 @@ import ToggleText from "./components/Toggle";
 import Total from "./components/Total";
 import EventButton from "./components/EventButton";
 import EventInput from "./components/EventInput";
+import Button from "./components/PressableTest";
 const App = ()=> {
     const [arr,setArr] = useState([1,2,3,4,5,6,7,8,9,10])
     return (
@@ -29,8 +30,9 @@ const App = ()=> {
         {/* <Counter/>
         <ToggleText />
         <Total arr={arr}/> */}
-        <EventButton />
-        <EventInput />
+        {/* <EventButton />
+        <EventInput /> */}
+        <Button title="Pressable" />
     </View>
     )
 }
