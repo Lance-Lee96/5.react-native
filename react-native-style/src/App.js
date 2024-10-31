@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { textStyles, viewStyles } from './styles';
 import { Header, Contents, Footer } from './components/Layout';
@@ -8,21 +8,37 @@ import AlignItemsTest from './components/alignItemsTest';
 import ShadowBox from './components/shadowBox';
 import { Styled } from './components/StyledComponent';
 import Button from './components/Button';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import { SignUp } from './components/SignUp';
+import Input from './components/input';
+import { theme ,lightTheme, darkTheme } from './theme';
+import { Switch } from 'react-native';
+
 
 const Container = styled.View`
     flex: 1;
-    background-color: #ffffff;
+    background-color: ${props => props.theme.background};
     align-items: center;
     justify-content:center;
 `
 
 export default function App() {
-    return (
-        <Container>
-            <Button title={'hanbit'} />
-        </Container>
+    const[isDark,setIsDark] = useState(false);
+    const _toggleSwitch = () => {
+        setIsDark(!isDark);
+    }
 
+    return (
+        // ThemeProvider에 정의한 props는 하위 컴포넌트에서 받아서 사용할 수 있다.
+        <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+            <Container>
+                <Switch value={isDark} onValueChange={_toggleSwitch} />
+                <Button title="Hanbit" />
+                <Button title="React Native" />
+                <Input borderColor="#3498db" />
+                <Input borderColor="#9b59b6" />
+            </Container>
+        </ThemeProvider>
 
 
 

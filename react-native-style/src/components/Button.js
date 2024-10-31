@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const ButtonContainer = styled.Pressable`
-    background-color: #9b59b6;
+    background-color: ${props =>
+        props.title === 'Hanbit' ? props.theme.blue : props.theme.purple};
     border-radius: 15px;
     padding: 15px 40px;
     margin: 10px 0px;
@@ -12,12 +13,12 @@ const ButtonContainer = styled.Pressable`
 const Title = styled.Text`
     font-size: 20px;
     font-weight: 600;
-    color: #fff;
+    color: ${props => props.theme.text};
 `
 
 const Button = (props) => {
-    return(
-        <ButtonContainer>
+    return (
+        <ButtonContainer title={props.title}>
             <Title>{props.title}</Title>
         </ButtonContainer>
     )
