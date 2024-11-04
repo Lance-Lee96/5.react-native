@@ -4,7 +4,7 @@ import DeleteForever from '../assets/icon/delete_forever.png'
 import Edit from '../assets/icon/edit.png'
 
 export const images = {
-    uncompleted: CheckBoxOutline,
+    uncomplete: CheckBoxOutline,
     completed: CheckBox,
     delete: DeleteForever,
     update: Edit,
