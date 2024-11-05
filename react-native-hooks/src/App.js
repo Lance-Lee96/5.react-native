@@ -5,6 +5,8 @@ import Form from "./component/Form";
 import Button from "./component/Button";
 import Timer from "./component/Timer";
 import Length from "./component/Length";
+import Dog from "./component/dog";
+import MakeBread from "./component/MakeBread";
 
 
 const Container = styled.View`
@@ -26,7 +28,9 @@ const App = () => {
                     onPress={() => setIsVisible(prev => !prev)}
                     /> */}
                     {/* <Timer /> */}
-                    <Length />
+                    {/* <Length /> */}
+                    <Dog />
+                    {/* <MakeBread /> */}
         </Container>
     )
 }
