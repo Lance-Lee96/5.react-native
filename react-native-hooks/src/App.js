@@ -5,8 +5,9 @@ import Form from "./component/Form";
 import Button from "./component/Button";
 import Timer from "./component/Timer";
 import Length from "./component/Length";
-import Dog from "./component/dog";
+import Dog from "./component/Dog";
 import MakeBread from "./component/MakeBread";
+import ScrollComponent from "./component/ScrollComponent";
 
 
 const Container = styled.View`
@@ -17,7 +18,7 @@ const Container = styled.View`
 `
 
 const App = () => {
-    const [isVisible,setIsVisible] = useState(true);
+    // const [isVisible,setIsVisible] = useState(true);
 
     return (
         <Container>
@@ -29,8 +30,9 @@ const App = () => {
                     /> */}
                     {/* <Timer /> */}
                     {/* <Length /> */}
-                    <Dog />
+                    {/* <Dog /> */}
                     {/* <MakeBread /> */}
+                    <ScrollComponent />
         </Container>
     )
 }
