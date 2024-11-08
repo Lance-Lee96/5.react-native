@@ -63,3 +63,20 @@ const book = [
     {id:'5', title: '운수좋은날', description: '이것은 운수좋은날의 설명입니다.'},
 ]
 3. BookDetailScreen : 선택된 책의 제목과 설명을 표시한다.
+
+회원 관리 앱 만들기
+
+1. UserStack만들기
+
+2. UserHomeScreen 에서 유저 목록 보기 버튼 누르면 유저 목록이 나오는 페이지로 이동
+
+3. UserListScreen 유저 목록에서 유저 이름, 프로필 보기 버튼으로 표시
+프로필 보기 버튼을 누르면 상세페이지로 이동
+const users = [
+    { id: '1', name: 'John Doe', email: 'john@example.com' },
+    { id: '2', name: 'Jane Smith', email: 'jane@example.com' },
+    { id: '3', name: 'Alice Johnson', email: 'alice@example.com' },
+  ];
+
+4. UserProfileScreen
+유저의 이름과 이메일 화면에 띄우기
