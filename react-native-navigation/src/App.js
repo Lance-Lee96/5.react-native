@@ -8,6 +8,7 @@ import TabNavigator from './navigations/Tab';
 import CartTabNavigator from './navigations/Cart';
 import ChatTabNavigator from './navigations/ChatTab';
 import ChatStackNavigator from './navigations/ChatStack';
+import DrawerNavigation from './navigations/Drawer';
 
 
 
@@ -21,7 +22,7 @@ import ChatStackNavigator from './navigations/ChatStack';
 const App = () => {
     return (
         <NavigationContainer>
-            <ChatTabNavigator />
+            <DrawerNavigation />
         </NavigationContainer>
         
     );
