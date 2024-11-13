@@ -1,32 +1,82 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { Image, Input } from "../components";
+import { Image, Input, Button } from "../components";
 import { images } from "../utils/images";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { validateEmail, removeWhitespace } from "../utils/common";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 
 const Container = styled.View`
     flex : 1;
-    justify-content : center;
     align-items : center;
+    justify-content : center;
     background-color : ${({ theme }) => theme.background};
-    padding: 20px;
+    padding: 0 20px;
+    padding-top:${({insets:{top}})=> top}px;
+    padding-bottom:${({insets:{bottom}})=> bottom}px;
+`
+
+const ErrorText = styled.Text`
+    align-items : flex-start;
+    width : 100%;
+    height : 20px;
+    margin-bottom : 10px;
+    line-height : 20px;
+    color : ${({theme}) => theme.errorText};
 `
 
 const Login = ({ navigation }) => {
+    // useSafeAreaInsets()
+    // 화면에 안전 영역을 고려해 레이아웃을 조정할 때 사용하는 Hook
+    // iOS장치의 상단 노치나 하단 홈 버튼 영역과 같은 안전 구역을 감안해 레이아웃을 맞추기 위해 사용.
+    // hook은  {top,bottom,left,right} 형태의 객체를 반환한다.
+    // 안전 영역의 높이나 너피를 픽셀 단위로 제공
+    const insets = useSafeAreaInsets();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     const passwordRef = useRef();
+
+    const [disabled,setDisabled] = useState(true);
+
+    useEffect(() => {
+        //이메일을 입력하고, 비밀번호를 입력하고
+        //조건맞게 입력했을 때 false로 바꾼다.
+        setDisabled(!(email && password && !errorMessage))
+    },[email,password,errorMessage])
+
+    const _handleEmailChange = email => {
+        //Input에 적힌 email을 받아와서 모든 공백 제거
+        const changedEmail = removeWhitespace(email);
+        setEmail(changedEmail);
+        setErrorMessage(
+            validateEmail(changedEmail) ? '' : 'Please verify your email.'
+        )
+    }
+
+    const _handlePasswordChange = password => {
+        setPassword(removeWhitespace(password));
+    }
+
+    //Button 컴포넌트에 전달할 함수 (지금 당장은 기능이 없음)
+    const _handleLoginButtonPress = () => {
+        alert('버튼 눌림')
+    }
+
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{flex : 1}}
             extraScrollHeight={20}
         >
-            <Container>
-                <Image url={images.logo} imageStyle={{ borderRadius: 100 }} />
+            <Container insets={insets}>
+                <Image url={images.logo} rounded />
                 <Input
                     label="Email"
                     value={email}
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={_handleEmailChange}
                     onSubmitEditing={() => passwordRef.current.focus()}
                     placeholder="Email"
                     returnKeyType="next"
@@ -35,10 +85,23 @@ const Login = ({ navigation }) => {
                     ref={passwordRef}
                     label="Password"
                     value={password}
-                    onChangeText={text => setPassword(text)}
-                    onSubmitEditing={() => { }}
+                    onChangeText={_handlePasswordChange}
+                    onSubmitEditing={_handleLoginButtonPress}
                     placeholder="Password"
                     returnKeyType="done"
+                    isPassword={true}
+                />
+                <ErrorText>{errorMessage}</ErrorText>
+                {/* 로그인 버튼 */}
+                <Button title="Login" 
+                        onPress={_handleLoginButtonPress} 
+                        disabled={disabled} // 여기서의 disabled는 props의 역할만 한다.
+                />
+            
+                {/* 회원가입 버튼 */}
+                <Button title="Sign up with email"
+                        onPress={()=> navigation.navigate('Signup')}
+                        isFilled={false}
                 />
             </Container>
             </KeyboardAwareScrollView>
