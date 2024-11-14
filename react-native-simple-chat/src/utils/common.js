@@ -17,6 +17,6 @@ export const removeWhitespace = text => {
     // 문자열의 모든 공백을 찾으려면 /g까지 써줘야 한다.
     // /g : 정규 표현식이 문자열에서 모든 일치 항목을 찾도록 설정
 
-    return text.replace(regex,'');
+    return text.replace(regex, '');
 }
 

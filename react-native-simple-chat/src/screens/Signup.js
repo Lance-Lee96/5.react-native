@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { ProgressContext, UserContext } from "../contexts";
 import styled from "styled-components";
 import { Image, Input, Button } from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { validateEmail, removeWhitespace } from "../utils/common";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { images } from "../utils/images";
+import { Alert } from "react-native";
+import { signup } from "../utils/firebase";
 
 
 const Container = styled.View`
@@ -25,6 +27,10 @@ const ErrorText = styled.Text`
 `
 
 const Signup = () => {
+
+    const { spinner } = useContext(ProgressContext);
+    const { dispatch } = useContext(UserContext);
+
     const [name, setName] = useState('') // 이름을 관리하는 state
     const [email, setEmail] = useState('') // 아이디(이메일)을 관리하는 state
     const [password, setPassword] = useState('') // 비밀번호를 관리하는 state
@@ -40,43 +46,55 @@ const Signup = () => {
 
     //함수 작성
     useEffect(() => {
-        if(didMountRef.current){
-        let _errMessage = '';
-        if(!name){
-            _errMessage='Please enter your name';
-        } else if(!validateEmail(email)){
-            _errMessage='Please verify your email.';
-        } else if(password.length < 6) {
-            _errMessage='The password must contains 6 characters at least';
-        } else if(password !== passwordConfirm){
-            _errMessage='Passwords need to match';
+        if (didMountRef.current) {
+            let _errMessage = '';
+            if (!name) {
+                _errMessage = 'Please enter your name';
+            } else if (!validateEmail(email)) {
+                _errMessage = 'Please verify your email.';
+            } else if (password.length < 6) {
+                _errMessage = 'The password must contains 6 characters at least';
+            } else if (password !== passwordConfirm) {
+                _errMessage = 'Passwords need to match';
+            } else {
+                _errMessage = '';
+            }
+            setErrorMessage(_errMessage);
         } else {
-            _errMessage='';
+            didMountRef.current = true;
         }
-        setErrorMessage(_errMessage);
-    }else {
-        didMountRef.current = true;
-    }
-    },[name,email,password,passwordConfirm])
+    }, [name, email, password, passwordConfirm])
 
-    useEffect(()=>{
+    useEffect(() => {
         setDisabled(
             !(name && email && password && passwordConfirm && !errorMessage)
         )
-    },[name, email, password, passwordConfirm, errorMessage])
+    }, [name, email, password, passwordConfirm, errorMessage])
 
-    const _handleSignupButtonPress = () => {};
+    const _handleSignupButtonPress = async () => {
+        try {
+            spinner.start();
+            const user = await signup({ email, password, name, photoUrl })
+            console.log(user);
+            dispatch(user);
+            Alert.alert('Signup Success', user.email);
+        } catch (error) {
+            Alert.alert('Signup Error', error.message);
+        } finally {
+            spinner.stop();
+        }
+    };
 
     return (
         <KeyboardAwareScrollView
             extraHeight={20}
         >
             <Container>
-                <Image 
-                    rounded 
-                    url={photoUrl} 
+                <Image
+                    rounded
+                    url={photoUrl}
                     showButton
-                    onChangeImage={setPhotoUrl}/>
+                    onChangeImage={setPhotoUrl} />
                 <Input
                     label='Name'
                     value={name}
