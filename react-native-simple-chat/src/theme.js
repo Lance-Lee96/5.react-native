@@ -10,18 +10,32 @@ const colors = {
 export const theme = {
     background: colors.white,
     text: colors.black,
+    errorText : colors.red,
+
+    //ImageComponent
     imageBackground: colors.grey_0,
-    label: colors.grey_1,
-    inputPlaceholder: colors.grey_1,
-    inputBorder: colors.grey_1,
-    errorText: colors.red,
-    buttonBackground: colors.blue,
-    buttonTitle: colors.white,
-    buttonUnfilledTitle: colors.blue,
-    headerTintColor: colors.black,
     imageButtonBackground: colors.grey_1,
-    imageButtonIcon: colors.white,
-    spinnerBackground: colors.black,
-    spinnerIndicator: colors.white,
+    imageButtonIcon : colors.white,
+
+    //InputComponent
+    label : colors.grey_1,
+    inputPlaceholder : colors.grey_1,
+    inputBorder : colors.grey_1,
+    inputDisabledBackground: colors.grey_0,
+    
+    //ButtonComponent
+    buttonBackground : colors.blue,
+    buttonTitle : colors.white,
+    buttonUnfilledTitle : colors.blue,
+    buttonLogout : colors.red,
+
+    //Naivgation
+    headerTintColor : colors.black,
+    tabActiveColor : colors.blue,
+    tabInactiveColor : colors.grey_1,
+    
+    //SpinnerCommponent
+    spinnerBackground : colors.black,
+    spinnerIndicator : colors.white,
 }
 

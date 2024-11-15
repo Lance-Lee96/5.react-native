@@ -10,7 +10,8 @@ const Container = styled.View`
 const Channel = () => {
     return(
         <Container>
-            <Text style={{fontSize : 24}}>Channel</Text>
+            <Text style={{fontSize : 24}}>ID</Text>
+            <Text style={{fontSize : 24}}>Title</Text>
         </Container>
     )
 }
