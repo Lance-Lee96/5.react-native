@@ -4,6 +4,7 @@ import React,{useState, useEffect, useContext} from "react";
 import { BoardContext } from "../context/BoardContext";
 import { useNavigate, Link } from "react-router-dom";
 import "../css/BoardList.css";
+import axios from "axios";
 
 const BoardList = () => {
 
@@ -21,8 +22,17 @@ const BoardList = () => {
     //전체 페이지 수를 관리
     const [totalPages, setTotalPages] = useState(1);
 
+    const getBoardList = async() => {
+        try{
+            const response = await axios.get('http://localhost:9090/api/board/all');
+            console.log(response.data);
+        }catch(error){
+
+        }
+    }
+
      useEffect(()=> {
-        setBoardList(boardList);
+        getBoardList();
         setTotalPages(Math.ceil(boardList.length/postsPerPage))//총 페이지 수 계산
     },[postsPerPage,boardList])
 
