@@ -7,9 +7,9 @@ import { AuthProvider } from './contexts/UserContext';
 import HomeScreen from './components/HomeScreen';
 
 const App = () => (
-  <AuthProvider>
-    <HomeScreen />
-  </AuthProvider>
+  <ThemeProvider>
+    <ThemedComponent />
+  </ThemeProvider>
 );
 
 export default App;
