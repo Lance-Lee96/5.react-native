@@ -7,8 +7,7 @@ import { Pressable, Text, View, StyleSheet } from "react-native";
 
 const Stack = createStackNavigator();
 
-
-const BoardStack = (n) => {
+const BoardStack = () => {
     return (
         <Stack.Navigator
             screenOptions={{

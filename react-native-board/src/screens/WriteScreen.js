@@ -1,6 +1,7 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import { BoardContext } from '../context/BoardContext';
+import axios from 'axios';
 
 const WriteScreen = ({navigation}) => {
     const { boardList, setBoardList } = useContext(BoardContext)
@@ -8,7 +9,8 @@ const WriteScreen = ({navigation}) => {
     const [author, setAuthor] = useState('');
     const [content, setContent] = useState('');
 
-    const handleSave = () => {
+
+    const handleSave = async () => {
         if (!title || !author || !content) {
             alert('모든 필드를 입력해 주세요');
             return;
@@ -20,10 +22,21 @@ const WriteScreen = ({navigation}) => {
             content,
             writingTime: new Date().toISOString(),
         }
-        setBoardList([...boardList, newBoardItem]);
-        alert('게시물이 저장되었습니다.');
-        // navigation.navigate('Main');
-    }
+        try {
+            // 서버에 POST 요청
+            const response = await axios.post('http://10.0.2.2:9090/api/board/write', newBoardItem);
+
+            // 서버에서 생성된 ID 및 정보를 포함한 새 게시물 추가
+            const savedItem = { ...newBoardItem, id: response.data.id };
+            setBoardList([...boardList, savedItem]);
+
+            alert('게시물이 저장되었습니다.');
+            navigation.navigate('Main');
+        } catch (error) {
+            console.error('게시물 저장 실패:', error);
+            alert('게시물을 저장하는 데 실패했습니다.');
+        }
+    };
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -35,7 +48,7 @@ const WriteScreen = ({navigation}) => {
                 </Pressable>
             )
         })
-    })
+    },[navigation,handleSave]);
 
     return (
         <View style={styles.container}>

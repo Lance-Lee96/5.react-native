@@ -1,7 +1,8 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { BoardContext } from "../context/BoardContext";
 import { FlatList, View, Text, StyleSheet, Pressable } from "react-native";
 import { AntDesign } from '@expo/vector-icons'
+import axios from "axios";
 
 
 
@@ -21,20 +22,42 @@ const PostItem = ({ title, author, writingTime }) => {
 }
 
 const MainScreen = ({ navigation }) => {
-    const {boardList} = useContext(BoardContext);
+    const {boardList,setBoardList} = useContext(BoardContext);
+
+    const getBoardList = async () => {
+        try{
+            const response = await axios.get("http://10.0.2.2:9090/api/board/all");
+            setBoardList(response.data.data);
+        }catch(error){
+            console.log("error", error);
+        }
+    }
+
+    useEffect(() => {
+        getBoardList();
+        console.log(boardList)
+    }, []);
+
+
     return (
         <View style={styles.container}>
-            <FlatList
-                data={boardList}
-                renderItem={({ item }) => (
-                    <PostItem
-                        title={item.title}
-                        author={item.author}
-                        writingTime={item.writingTime}
-                    />
-                )}
-                keyExtractor={(item) => item.id}
-            />
+            {boardList.length > 0 ? ( 
+                <FlatList
+                    data={boardList}
+                    renderItem={({ item }) => (
+                        <PostItem
+                            title={item.title}
+                            author={item.author}
+                            writingTime={item.writingTime}
+                        />
+                    )}
+                    keyExtractor={(item) => item.id}
+                />
+            ) : (
+                <View>
+                    <Text style={styles.noDataText}>게시글이 없습니다.</Text>
+                </View>
+            )}
             <Pressable style={styles.fab} onPress={() => navigation.navigate('Write')}>
                 <AntDesign name="plus" size={24} color="white" />
             </Pressable>
@@ -85,7 +108,16 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         right: 40,
         bottom: 50,
-    }
+    },
+    noDataContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    noDataText: {
+        color: '#aaa',
+        fontSize: 16,
+    },
 })
 
 export default MainScreen;
